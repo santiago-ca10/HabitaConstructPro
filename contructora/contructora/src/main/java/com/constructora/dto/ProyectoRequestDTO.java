@@ -22,10 +22,11 @@ public class ProyectoRequestDTO {
 	@NotBlank(message = "La ciudad es obligatoria")
 	private String ciudad;
 
+	@NotBlank(message = "La dirección es obligatoria")
 	private String direccion;
 
 	@NotNull(message = "El precio desde es obligatorio")
-	@DecimalMin(value = "0.0", inclusive = false, message = "El precio desde debe ser mayor que cero")
+	@DecimalMin(value = "0.01", message = "El precio desde debe ser mayor que cero")
 	private BigDecimal precioDesde;
 
 	private String imagenUrl;

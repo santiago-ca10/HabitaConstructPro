@@ -9,13 +9,14 @@ import lombok.Setter;
 @Setter
 public class ClienteInteresadoResponseDTO {
     
-    private long id;
+    private Long id;
     private String nombre;
     private String telefono;
     private String correo;
     private String mensaje;
     private LocalDateTime fechaRegistro;
-    private String proyectoId;
+    private Long proyectoId;
     private String proyectoNombre;
+
 
 }

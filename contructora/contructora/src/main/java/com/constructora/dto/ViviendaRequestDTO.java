@@ -12,7 +12,7 @@ import lombok.Setter;
 
 @Getter
 @Setter
-public class ViviendaRquestDTO {
+public class ViviendaRequestDTO {
 
 	@NotBlank(message = "El título es obligatorio")
 	private String titulo;
@@ -25,22 +25,22 @@ public class ViviendaRquestDTO {
 	private Integer habitaciones;
 
 	@NotNull(message = "La cantidad de baños es obligatoria")
-	@Min(value = 0, message = "La cantidad de baños no puede ser negativa")
+	@Min(value = 1, message = "La cantidad de baños debe ser uno o mayor")
 	private Integer banos;
 
 	@NotNull(message = "El área es obligatoria")
-	@Min(value = 1, message = "El área debe ser mayor que cero")
+	@DecimalMin(value = "0.01", message = "El área debe ser mayor que cero")
 	private Integer area;
 
 	@NotNull(message = "El precio es obligatorio")
-	@DecimalMin(value = "0.0", inclusive = false, message = "El precio debe ser mayor que cero")
+	@DecimalMin(value = "0.01", message = "El precio debe ser mayor que cero")
 	private BigDecimal precio;
 
 	private String imagenUrl;
 
 	private Boolean disponible = true;
 
-	@NotNull(message = "El proyecto es obligatorio")
+	@NotBlank(message = "El proyecto es obligatorio")
 	private Long proyectoId;
 
 }
