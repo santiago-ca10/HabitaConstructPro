@@ -23,6 +23,6 @@ public class ClienteInteresadoRequestDTO {
     private String mensaje;
 
     @NotBlank(message = "El proyecto es obligatorio")
-    private String proyectoId;
+    private Long proyectoId;
     
 }

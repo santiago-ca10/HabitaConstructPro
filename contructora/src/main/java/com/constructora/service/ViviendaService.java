@@ -1,4 +1,4 @@
-package com.constructora.service.impl;
+package com.constructora.service;
 
 import java.util.List;
 

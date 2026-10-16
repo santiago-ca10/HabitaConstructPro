@@ -5,7 +5,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.constructora.dto.ViviendaRequestDTO;
 import com.constructora.dto.ViviendaResponseDTO;
-import com.constructora.service.impl.ViviendaService;
+import com.constructora.service.ViviendaService;
 
 import jakarta.validation.Valid;
 

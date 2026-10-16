@@ -7,9 +7,9 @@ import com.constructora.dto.ClienteInteresadoResponseDTO;
 import com.constructora.dto.ProyectoRequestDTO;
 import com.constructora.dto.ProyectoResponseDTO;
 import com.constructora.dto.ViviendaResponseDTO;
-import com.constructora.service.impl.ClienteInteresadoService;
-import com.constructora.service.impl.ViviendaService;
-import com.constructora.service.impl.ProyectoService;
+import com.constructora.service.ClienteInteresadoService;
+import com.constructora.service.ProyectoService;
+import com.constructora.service.ViviendaService;
 
 import jakarta.validation.Valid;
 

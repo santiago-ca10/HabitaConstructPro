@@ -1,8 +1,6 @@
 package com.constructora.controller;
 
 
-import com.constructora.service.impl.ClienteInteresadoService;
-
 import jakarta.validation.Valid;
 
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -10,6 +8,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.constructora.dto.ClienteInteresadoRequestDTO;
 import com.constructora.dto.ClienteInteresadoResponseDTO;
+import com.constructora.service.ClienteInteresadoService;
 
 import java.util.List;
 
