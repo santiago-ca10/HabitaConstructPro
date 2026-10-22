@@ -15,7 +15,7 @@ import java.util.Map;
 @RestControllerAdvice
 public class GlobalExceptionHandler {
 
-    @ExceptionHandler(MethodArgumentNotValidException.class)
+    @ExceptionHandler(ResourceNotFoundException.class)
     public ResponseEntity<Map<String, Object>> handlenNotFound(
             ResourceNotFoundException ex, HttpServletRequest request){
         Map<String, Object> body = new HashMap<>();

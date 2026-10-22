@@ -9,9 +9,9 @@
 		<relativePath/> <!-- lookup parent from repository -->
 	</parent>
 	<groupId>com.constructora</groupId>
-	<artifactId>contructora</artifactId>
+	<artifactId>constructora</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
-	<name/>
+	<name>constructora</name>
 	<description/>
 	<url/>
 	<licenses>
