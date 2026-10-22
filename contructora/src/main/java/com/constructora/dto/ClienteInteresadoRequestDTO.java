@@ -2,6 +2,7 @@ package com.constructora.dto;
 
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotNull;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -22,7 +23,7 @@ public class ClienteInteresadoRequestDTO {
     @NotBlank(message = "El mensaje es obligatorio")
     private String mensaje;
 
-    @NotBlank(message = "El proyecto es obligatorio")
+    @NotNull(message = "El proyecto es obligatorio")
     private Long proyectoId;
     
 }

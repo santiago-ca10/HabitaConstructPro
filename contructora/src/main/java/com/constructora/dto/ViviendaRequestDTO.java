@@ -40,7 +40,7 @@ public class ViviendaRequestDTO {
 
 	private Boolean disponible = true;
 
-	@NotBlank(message = "El proyecto es obligatorio")
+	@NotNull(message = "El proyecto es obligatorio")
 	private Long proyectoId;
 
 }
