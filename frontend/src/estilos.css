@@ -1,111 +1,141 @@
-:root {
-  --text: #6b6375;
-  --text-h: #08060d;
-  --bg: #fff;
-  --border: #e5e4e7;
-  --code-bg: #f4f3ec;
-  --accent: #aa3bff;
-  --accent-bg: rgba(170, 59, 255, 0.1);
-  --accent-border: rgba(170, 59, 255, 0.5);
-  --social-bg: rgba(244, 243, 236, 0.5);
-  --shadow:
-    rgba(0, 0, 0, 0.1) 0 10px 15px -3px, rgba(0, 0, 0, 0.05) 0 4px 6px -2px;
+* { box-sizing: border-box; }
 
-  --sans: system-ui, 'Segoe UI', Roboto, sans-serif;
-  --heading: system-ui, 'Segoe UI', Roboto, sans-serif;
-  --mono: ui-monospace, Consolas, monospace;
-
-  font: 18px/145% var(--sans);
-  letter-spacing: 0.18px;
-  color-scheme: light dark;
-  color: var(--text);
-  background: var(--bg);
-  font-synthesis: none;
-  text-rendering: optimizeLegibility;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-
-  @media (max-width: 1024px) {
-    font-size: 16px;
-  }
-}
-
-@media (prefers-color-scheme: dark) {
-  :root {
-    --text: #9ca3af;
-    --text-h: #f3f4f6;
-    --bg: #16171d;
-    --border: #2e303a;
-    --code-bg: #1f2028;
-    --accent: #c084fc;
-    --accent-bg: rgba(192, 132, 252, 0.15);
-    --accent-border: rgba(192, 132, 252, 0.5);
-    --social-bg: rgba(47, 48, 58, 0.5);
-    --shadow:
-      rgba(0, 0, 0, 0.4) 0 10px 15px -3px, rgba(0, 0, 0, 0.25) 0 4px 6px -2px;
-  }
-
-  #social .button-icon {
-    filter: invert(1) brightness(2);
-  }
-}
-
+/* Fondo, letra y color del texto de toda la página. */
 body {
   margin: 0;
+  font-family: sans-serif;
+  background: #f4f6f8;
+  color: #1b2a4a;
 }
 
-#root {
-  width: 1126px;
-  max-width: 100%;
-  margin: 0 auto;
-  text-align: center;
-  border-inline: 1px solid var(--border);
-  min-height: 100svh;
+a { color: #1b2a4a; }
+
+/* Barra de arriba y pie: fondo azul oscuro y contenido en fila. */
+header, footer {
+  background: #1b2a4a;
+  color: white;
   display: flex;
-  flex-direction: column;
-  box-sizing: border-box;
+  justify-content: space-between;
+  align-items: center;
+  gap: 1rem;
+  flex-wrap: wrap;
+  padding: 0.9rem 1.5rem;
 }
 
-h1,
-h2 {
-  font-family: var(--heading);
-  font-weight: 500;
-  color: var(--text-h);
+header a, footer { color: white; text-decoration: none; }
+
+/* Los enlaces del menú van uno al lado del otro y bajan de línea si no caben. */
+header nav, .subnav { display: flex; gap: 0.8rem; flex-wrap: wrap; }
+
+/* El enlace de la pantalla actual se ve en dorado. */
+header nav a.active, .subnav a.active { color: #e6c27a; }
+
+.marca { font-weight: 700; font-size: 1.15rem; }
+
+/* Menú pequeño de Proyectos, Viviendas y Clientes dentro de Administración. */
+.subnav { margin-bottom: 1rem; }
+.subnav a {
+  background: white;
+  color: #1b2a4a;
+  text-decoration: none;
+  padding: 0.4rem 0.7rem;
+  border-radius: 6px;
+}
+.subnav a.active { background: #1b2a4a; color: white; }
+
+footer { display: block; margin-top: 2rem; }
+footer p { margin: 0.3rem 0 0; color: #d5dbe6; }
+
+/* Franja grande de la página de inicio. */
+.hero {
+  background: linear-gradient(135deg, #1b2a4a, #3d5a80);
+  color: white;
+  padding: 3.2rem 1.5rem;
+}
+.hero .contenido { max-width: 1100px; margin: 0 auto; }
+.hero p { max-width: 38rem; }
+
+/* Ancho del contenido central. "estrecha" se usa en Contacto. */
+.pagina { max-width: 1100px; margin: 0 auto; padding: 1.5rem; }
+.estrecha { max-width: 640px; }
+
+/* Rejilla de tarjetas: varias columnas en computador y una en celular. */
+.grid, .beneficios {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
+  gap: 1rem;
 }
 
-h1 {
-  font-size: 56px;
-  letter-spacing: -1.68px;
-  margin: 32px 0;
-  @media (max-width: 1024px) {
-    font-size: 36px;
-    margin: 20px 0;
-  }
-}
-h2 {
-  font-size: 24px;
-  line-height: 118%;
-  letter-spacing: -0.24px;
-  margin: 0 0 8px;
-  @media (max-width: 1024px) {
-    font-size: 20px;
-  }
-}
-p {
-  margin: 0;
+/* Caja blanca de una tarjeta o de un formulario. */
+.tarjeta, .caja {
+  background: white;
+  border-radius: 10px;
+  box-shadow: 0 1px 4px rgba(0, 0, 0, 0.08);
 }
 
-code,
-.counter {
-  font-family: var(--mono);
-  display: inline-flex;
-  border-radius: 4px;
-  color: var(--text-h);
-}
+.tarjeta { color: inherit; text-decoration: none; display: block; overflow: hidden; }
+.caja { padding: 1rem; }
+.cuerpo { padding: 1rem; }
+.cuerpo h2, .caja h2, .caja h3 { margin-top: 0; }
 
-code {
-  font-size: 15px;
-  line-height: 135%;
-  padding: 4px 8px;
-  background: var(--code-bg);
+/* Foto de la tarjeta. "grande" es la del detalle. "vacia" es el aviso sin imagen. */
+.foto {
+  width: 100%;
+  height: 170px;
+  object-fit: cover;
+  display: block;
+  background: #d9e0ea;
+}
+.foto.grande { height: 320px; border-radius: 10px; margin: 1rem 0; }
+.foto.vacia { display: grid; place-items: center; color: #667; }
+.precio { font-weight: 700; }
+
+/* Botón dorado, y las variantes gris, roja y pequeña. */
+.boton {
+  display: inline-block;
+  background: #b0893e;
+  color: white;
+  border: 0;
+  border-radius: 6px;
+  padding: 0.6rem 1rem;
+  font: inherit;
+  text-decoration: none;
+  cursor: pointer;
+}
+.boton:disabled { opacity: 0.6; cursor: default; }
+.boton.secundario { background: #e8edf3; color: #1b2a4a; }
+.boton.peligro { background: #9b2c2c; }
+.boton.mini { padding: 0.3rem 0.55rem; font-size: 0.85rem; }
+
+/* Campos de los formularios: ocupan todo el ancho de su caja. */
+label { display: block; margin: 0.7rem 0 0.25rem; font-size: 0.9rem; }
+input, select, textarea {
+  width: 100%;
+  padding: 0.5rem;
+  border: 1px solid #cfd6e0;
+  border-radius: 6px;
+  font: inherit;
+}
+textarea { min-height: 90px; }
+.check { display: flex; align-items: center; gap: 0.4rem; }
+.check input { width: auto; }
+
+/* Dos campos en la misma fila, y el formulario de admin al lado de la tabla. */
+.fila { display: grid; grid-template-columns: 1fr 1fr; gap: 0.75rem; }
+.admin { display: grid; grid-template-columns: 320px 1fr; gap: 1rem; align-items: start; }
+.acciones { display: flex; gap: 0.4rem; flex-wrap: wrap; margin-top: 0.8rem; }
+
+/* La tabla puede desplazarse de lado si no cabe. */
+.tabla-wrap { overflow-x: auto; background: white; border-radius: 10px; }
+table { width: 100%; border-collapse: collapse; }
+th, td { text-align: left; padding: 0.55rem; border-bottom: 1px solid #e6ebf1; vertical-align: top; }
+
+/* Verde para un resultado correcto. Rojo para un error. */
+.ok { color: #176b3a; }
+.error { color: #9b2c2c; }
+
+/* En pantallas de menos de 800px, el formulario queda debajo de la tabla. */
+@media (max-width: 800px) {
+  .fila, .admin { grid-template-columns: 1fr; }
+  .foto.grande { height: 200px; }
 }

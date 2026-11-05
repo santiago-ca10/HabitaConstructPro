@@ -37,8 +37,7 @@ public class ProyectoController {
 
     public ProyectoController(ProyectoService proyectoService, 
                                 ViviendaService viviendaService,
-                                ClienteInteresadoService clienteInteresadoService,
-                                ClienteInteresadoController clienteInteresadoController) {
+                                ClienteInteresadoService clienteInteresadoService) {
         this.proyectoService = proyectoService;
         this.viviendaService = viviendaService;
         this.clienteInteresadoService = clienteInteresadoService;

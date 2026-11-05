@@ -1,122 +1,51 @@
-import { useState } from 'react'
-import heroImg from './assets/hero.png'
-import reactLogo from './assets/react.svg'
-import viteLogo from './assets/vite.svg'
-import './App.css'
+// Piezas para el menú y para decidir qué pantalla mostrar.
+import { NavLink, Navigate, Route, Routes } from 'react-router-dom'
+// Cada import trae una pantalla distinta.
+import AdminClientes from './pages/AdminClientes'
+import AdminProyectos from './pages/AdminProyectos'
+import AdminViviendas from './pages/AdminViviendas'
+import Contacto from './pages/Contacto'
+import DetalleProyecto from './pages/DetallesProyecto'
+import Inicio from './pages/Inicio'
+import Proyectos from './pages/Proyectos'
+import Viviendas from './pages/Viviendas'
 
-function App() {
-  const [count, setCount] = useState(0)
-
+// App es el componente principal. Se dibuja en todas las direcciones.
+export default function App() {
   return (
     <>
-      <section id="center">
-        <div className="hero">
-          <img src={heroImg} className="base" width="170" height="179" alt="" />
-          <img src={reactLogo} className="framework" alt="React logo" />
-          <img src={viteLogo} className="vite" alt="Vite logo" />
-        </div>
-        <div>
-          <h1>Get started</h1>
-          <p>
-            Edit <code>src/App.jsx</code> and save to test <code>HMR</code>
-          </p>
-        </div>
-        <button
-          type="button"
-          className="counter"
-          onClick={() => setCount((count) => count + 1)}
-        >
-          Count is {count}
-        </button>
-      </section>
+      {/* Menú de arriba. Cada enlace abre una pantalla sin recargar el navegador. */}
+      <header>
+        <NavLink to="/" className="marca" end>Habita Constructora</NavLink>
+        <nav>
+          <NavLink to="/" end>Inicio</NavLink>
+          <NavLink to="/proyectos">Proyectos</NavLink>
+          <NavLink to="/viviendas">Viviendas</NavLink>
+          <NavLink to="/contacto">Contacto</NavLink>
+          <NavLink to="/admin/proyectos">Administración</NavLink>
+        </nav>
+      </header>
 
-      <div className="ticks"></div>
+      {/* Según la dirección, muestra una sola de estas pantallas. */}
+      <Routes>
+        <Route path="/" element={<Inicio />} />
+        <Route path="/proyectos" element={<Proyectos />} />
+        {/* :id es el número del proyecto. Ejemplo: /proyectos/1 */}
+        <Route path="/proyectos/:id" element={<DetalleProyecto />} />
+        <Route path="/viviendas" element={<Viviendas />} />
+        <Route path="/contacto" element={<Contacto />} />
+        {/* /admin sola redirige a la administración de proyectos. */}
+        <Route path="/admin" element={<Navigate to="/admin/proyectos" replace />} />
+        <Route path="/admin/proyectos" element={<AdminProyectos />} />
+        <Route path="/admin/viviendas" element={<AdminViviendas />} />
+        <Route path="/admin/clientes" element={<AdminClientes />} />
+      </Routes>
 
-      <section id="next-steps">
-        <div id="docs">
-          <svg className="icon" role="presentation" aria-hidden="true">
-            <use href="/icons.svg#documentation-icon"></use>
-          </svg>
-          <h2>Documentation</h2>
-          <p>Your questions, answered</p>
-          <ul>
-            <li>
-              <a href="https://vite.dev/" target="_blank">
-                <img className="logo" src={viteLogo} alt="" />
-                Explore Vite
-              </a>
-            </li>
-            <li>
-              <a href="https://react.dev/" target="_blank">
-                <img className="button-icon" src={reactLogo} alt="" />
-                Learn more
-              </a>
-            </li>
-          </ul>
-        </div>
-        <div id="social">
-          <svg className="icon" role="presentation" aria-hidden="true">
-            <use href="/icons.svg#social-icon"></use>
-          </svg>
-          <h2>Connect with us</h2>
-          <p>Join the Vite community</p>
-          <ul>
-            <li>
-              <a href="https://github.com/vitejs/vite" target="_blank">
-                <svg
-                  className="button-icon"
-                  role="presentation"
-                  aria-hidden="true"
-                >
-                  <use href="/icons.svg#github-icon"></use>
-                </svg>
-                GitHub
-              </a>
-            </li>
-            <li>
-              <a href="https://chat.vite.dev/" target="_blank">
-                <svg
-                  className="button-icon"
-                  role="presentation"
-                  aria-hidden="true"
-                >
-                  <use href="/icons.svg#discord-icon"></use>
-                </svg>
-                Discord
-              </a>
-            </li>
-            <li>
-              <a href="https://x.com/vite_js" target="_blank">
-                <svg
-                  className="button-icon"
-                  role="presentation"
-                  aria-hidden="true"
-                >
-                  <use href="/icons.svg#x-icon"></use>
-                </svg>
-                X.com
-              </a>
-            </li>
-            <li>
-              <a href="https://bsky.app/profile/vite.dev" target="_blank">
-                <svg
-                  className="button-icon"
-                  role="presentation"
-                  aria-hidden="true"
-                >
-                  <use href="/icons.svg#bluesky-icon"></use>
-                </svg>
-                Bluesky
-              </a>
-            </li>
-          </ul>
-        </div>
-      </section>
-
-      <div className="ticks"></div>
-      <section id="spacer"></section>
+      {/* Pie de página. Se ve en todas las pantallas. */}
+      <footer>
+        <strong>Habita Constructora</strong>
+        <p>Bogotá, Colombia · contacto@habitaconstructora.com · 601 555 0199</p>
+      </footer>
     </>
   )
 }
-
-export default App

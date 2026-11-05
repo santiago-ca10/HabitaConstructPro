@@ -8,38 +8,39 @@ import { Foto, TarjetaVivienda } from '../ui'
 export default function DetalleProyecto() {
   // id sale de la dirección. En /proyectos/1, id vale "1".
   const { id } = useParams()
-  const [proyecto, setProyecto] = useState(null)
-  const [viviendas, setViviendas] = useState([])
-  const [error, setError] = useState('')
+  const [resultado, setResultado] = useState(null)
 
   // Cada vez que cambia el id, vuelve a pedir ese proyecto y sus viviendas.
   useEffect(() => {
-    setProyecto(null)
-    setError('')
+    let activo = true
     // Las dos peticiones salen juntas y se espera a que terminen las dos.
     Promise.all([
       pedir('/proyectos/' + id),
       pedir('/proyectos/' + id + '/viviendas'),
     ])
       .then(([datos, lista]) => {
-        setProyecto(datos)
-        setViviendas(lista)
+        if (activo) setResultado({ id, proyecto: datos, viviendas: lista })
       })
-      .catch((e) => setError(e.message))
+      .catch((e) => {
+        if (activo) setResultado({ id, error: e.message })
+      })
+    return () => { activo = false }
   }, [id])
 
+  if (!resultado || resultado.id !== id) return <main className="pagina"><p>Cargando...</p></main>
+
   // Si el backend no encontró el proyecto, se muestra el error y un regreso.
-  if (error) {
+  if (resultado.error) {
     return (
       <main className="pagina">
-        <p className="error">{error}</p>
+        <p className="error">{resultado.error}</p>
         <Link to="/proyectos">Volver a proyectos</Link>
       </main>
     )
   }
 
   // Mientras los datos no llegan, no se intenta leer el nombre.
-  if (!proyecto) return <main className="pagina"><p>Cargando...</p></main>
+  const { proyecto, viviendas } = resultado
 
   return (
     <main className="pagina">

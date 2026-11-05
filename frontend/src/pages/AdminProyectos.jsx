@@ -28,12 +28,16 @@ export default function AdminProyectos() {
 
   // Trae de nuevo la lista y la pone en la tabla.
   async function cargar() {
-    setProyectos(await pedir('/proyectos'))
+    return pedir('/proyectos')
   }
 
   // Al abrir la pantalla, carga los proyectos.
   useEffect(() => {
-    cargar().catch((e) => setError(e.message))
+    let activo = true
+    cargar()
+      .then((lista) => { if (activo) setProyectos(lista) })
+      .catch((e) => { if (activo) setError(e.message) })
+    return () => { activo = false }
   }, [])
 
   // Actualiza el campo que la persona acaba de cambiar. El checkbox usa checked, no value.
@@ -86,7 +90,7 @@ export default function AdminProyectos() {
       }
       setForm(vacio)
       setEditando(null)
-      await cargar()
+      setProyectos(await cargar())
     } catch (err) {
       setError(err.message)
     } finally {
@@ -106,7 +110,7 @@ export default function AdminProyectos() {
       }
       setPorBorrar(null)
       setMensaje('Proyecto eliminado.')
-      await cargar()
+      setProyectos(await cargar())
     } catch {
       setPorBorrar(null)
       setError('No se puede eliminar: primero quita sus viviendas y clientes.')

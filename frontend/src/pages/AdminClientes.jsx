@@ -11,13 +11,15 @@ export default function AdminClientes(){
     const [cargando, setCargando] = useState(true)
 
     async function cargar() {
-        setClientes(await pedir('/clientes-interesados'))
-
+        return pedir('/clientes-interesados')
     }
     useEffect(() => {
+        let activo = true
         cargar()
-            .catch((e) => setError(e.message))
-            .finally(() => setCargando(false))
+            .then((lista) => { if (activo) setClientes(lista) })
+            .catch((e) => { if (activo) setError(e.message) })
+            .finally(() => { if (activo) setCargando(false) })
+        return () => { activo = false }
     }, [])
 
     //borra un registro despues de confirmar con un si
@@ -25,10 +27,10 @@ export default function AdminClientes(){
         setMensaje('')
         setError('')
         try {
-            await pedir('/clientes-interesados' + id, { method: 'DELETE' })
+            await pedir('/clientes-interesados/' + id, { method: 'DELETE' })
             setPorBorrar(null)
             setMensaje('Cliente eliminado')
-            await cargar()
+            setClientes(await cargar())
         } catch (err) {
             setPorBorrar(null)
             setError(err.message)

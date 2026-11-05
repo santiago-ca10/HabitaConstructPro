@@ -25,7 +25,7 @@ public class ViviendaRequestDTO {
 	private Integer habitaciones;
 
 	@NotNull(message = "La cantidad de baños es obligatoria")
-	@Min(value = 1, message = "La cantidad de baños debe ser uno o mayor")
+	@Min(value = 0, message = "La cantidad de baños no puede ser negativa")
 	private Integer banos;
 
 	@NotNull(message = "El área es obligatoria")

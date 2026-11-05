@@ -27,16 +27,23 @@ export default function AdminViviendas() {
 
   // Pide viviendas y proyectos a la vez, porque el formulario necesita las dos listas.
   async function cargar() {
-    const [lista, listaProyectos] = await Promise.all([
+    return Promise.all([
       pedir('/viviendas'),
       pedir('/proyectos'),
     ])
-    setViviendas(lista)
-    setProyectos(listaProyectos)
   }
 
   useEffect(() => {
-    cargar().catch((e) => setError(e.message))
+    let activo = true
+    cargar()
+      .then(([lista, listaProyectos]) => {
+        if (activo) {
+          setViviendas(lista)
+          setProyectos(listaProyectos)
+        }
+      })
+      .catch((e) => { if (activo) setError(e.message) })
+    return () => { activo = false }
   }, [])
 
   function cambiar(e) {
@@ -89,7 +96,9 @@ export default function AdminViviendas() {
       }
       setForm(vacio)
       setEditando(null)
-      await cargar()
+      const [lista, listaProyectos] = await cargar()
+      setViviendas(lista)
+      setProyectos(listaProyectos)
     } catch (err) {
       setError(err.message)
     } finally {
@@ -108,7 +117,9 @@ export default function AdminViviendas() {
       }
       setPorBorrar(null)
       setMensaje('Vivienda eliminada.')
-      await cargar()
+      const [lista, listaProyectos] = await cargar()
+      setViviendas(lista)
+      setProyectos(listaProyectos)
     } catch (err) {
       setPorBorrar(null)
       setError(err.message)
@@ -147,13 +158,13 @@ export default function AdminViviendas() {
             </div>
             <div>
               <label htmlFor="banos">Baños</label>
-              <input id="banos" name="banos" type="number" min="1" value={form.banos} onChange={cambiar} required />
+              <input id="banos" name="banos" type="number" min="0" value={form.banos} onChange={cambiar} required />
             </div>
           </div>
           <div className="fila">
             <div>
               <label htmlFor="area">Área (m²)</label>
-              <input id="area" name="area" type="number" min="1" step="0.01" value={form.area} onChange={cambiar} required />
+              <input id="area" name="area" type="number" min="1" step="1" value={form.area} onChange={cambiar} required />
             </div>
             <div>
               <label htmlFor="precio">Precio</label>
