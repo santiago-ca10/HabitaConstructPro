@@ -9,6 +9,8 @@ public interface ViviendaService {
 
     List<ViviendaResponseDTO> obtenerTodas();
 
+    List<ViviendaResponseDTO> obtenerPorCiudad(String ciudad);
+
     List<ViviendaResponseDTO> obtenerDisponibles();
 
     List<ViviendaResponseDTO> obtenerPorProyecto(Long proyectoId);

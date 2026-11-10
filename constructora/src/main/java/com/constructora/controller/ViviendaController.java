@@ -19,6 +19,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestParam;
 
 @RestController
 @RequestMapping("/api/viviendas")
@@ -31,8 +32,11 @@ public class ViviendaController {
     }
 
     @GetMapping
-    public ResponseEntity<List<ViviendaResponseDTO>> obtenerTodas() {
-        return ResponseEntity.ok(viviendaService.obtenerTodas());
+    public ResponseEntity<List<ViviendaResponseDTO>> obtenerTodas(
+            @RequestParam(required = false) String ciudad) {
+        return ResponseEntity.ok(ciudad == null || ciudad.isBlank()
+                ? viviendaService.obtenerTodas()
+                : viviendaService.obtenerPorCiudad(ciudad));
     }
 
     @GetMapping("/disponibles")

@@ -11,5 +11,10 @@ import com.constructora.entity.Proyecto;
 public interface ProyectoRepository extends JpaRepository<Proyecto, Long> {
 
     List<Proyecto> findByDestacadoTrue();
+
+    List<Proyecto> findByCiudadIgnoreCase(String ciudad);
+
+    @org.springframework.data.jpa.repository.Query("select distinct p.ciudad from Proyecto p order by p.ciudad")
+    List<String> findDistinctCiudades();
     
 }
