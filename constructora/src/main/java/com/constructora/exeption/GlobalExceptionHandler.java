@@ -7,6 +7,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.validation.FieldError;
 import org.springframework.web.bind.MethodArgumentNotValidException;
+import org.springframework.http.converter.HttpMessageNotReadableException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 
@@ -18,6 +19,18 @@ import java.util.Map;
 public class GlobalExceptionHandler {
 
     private static final Logger logger = LoggerFactory.getLogger(GlobalExceptionHandler.class);
+
+    @ExceptionHandler(InvalidCredentialsException.class)
+    public ResponseEntity<Map<String, Object>> handleInvalidCredentials(
+            InvalidCredentialsException ex, HttpServletRequest request) {
+        Map<String, Object> body = new HashMap<>();
+        body.put("timestamp", LocalDateTime.now().toString());
+        body.put("status", HttpStatus.UNAUTHORIZED.value());
+        body.put("error", "Credenciales inválidas");
+        body.put("message", ex.getMessage());
+        body.put("path", request.getRequestURI());
+        return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(body);
+    }
 
     @ExceptionHandler(ResourceNotFoundException.class)
     public ResponseEntity<Map<String, Object>> handlenNotFound(
@@ -44,6 +57,18 @@ public class GlobalExceptionHandler {
         body.put("message", "Existen errores de validación");
         body.put("errors", errors);
         return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(body);
+    }
+
+    @ExceptionHandler(HttpMessageNotReadableException.class)
+    public ResponseEntity<Map<String, Object>> handleUnreadableBody(
+            HttpMessageNotReadableException ex, HttpServletRequest request) {
+        Map<String, Object> body = new HashMap<>();
+        body.put("timestamp", LocalDateTime.now().toString());
+        body.put("status", HttpStatus.BAD_REQUEST.value());
+        body.put("error", "Solicitud no válida");
+        body.put("message", "El cuerpo de la solicitud no tiene un formato válido");
+        body.put("path", request.getRequestURI());
+        return ResponseEntity.badRequest().body(body);
     }
 
     @ExceptionHandler (Exception.class)

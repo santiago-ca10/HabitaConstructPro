@@ -36,6 +36,13 @@ public class ViviendaServiceImpl implements ViviendaService {
     }
 
     @Override
+    public List<ViviendaResponseDTO> obtenerPorCiudad(String ciudad) {
+        return viviendaRepository.findByProyectoCiudadIgnoreCase(ciudad.trim()).stream()
+                .map(viviendaMapper::toResponseDTO)
+                .toList();
+    }
+
+    @Override
     public List<ViviendaResponseDTO> obtenerDisponibles() {
         return viviendaRepository.findByDisponibleTrue().stream()
                 .map(viviendaMapper::toResponseDTO)

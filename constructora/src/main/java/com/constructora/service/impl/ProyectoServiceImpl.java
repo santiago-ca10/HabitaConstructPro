@@ -30,6 +30,18 @@ public class ProyectoServiceImpl implements ProyectoService {
     }
 
     @Override
+    public List<ProyectoResponseDTO> obtenerPorCiudad(String ciudad) {
+        return proyectoRepository.findByCiudadIgnoreCase(ciudad.trim()).stream()
+                .map(proyectoMapper::toResponseDTO)
+                .toList();
+    }
+
+    @Override
+    public List<String> obtenerCiudades() {
+        return proyectoRepository.findDistinctCiudades();
+    }
+
+    @Override
     public List<ProyectoResponseDTO> obtenerDestacados() {
         return proyectoRepository.findByDestacadoTrue().stream()
                 .map(proyectoMapper::toResponseDTO)

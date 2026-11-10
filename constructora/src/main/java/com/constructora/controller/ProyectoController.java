@@ -23,6 +23,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestParam;
 
 
 
@@ -44,8 +45,16 @@ public class ProyectoController {
     }
 
     @GetMapping
-    public ResponseEntity<List<ProyectoResponseDTO>> obtenerTodos() {
-        return ResponseEntity.ok(proyectoService.obtenerTodos());
+    public ResponseEntity<List<ProyectoResponseDTO>> obtenerTodos(
+            @RequestParam(required = false) String ciudad) {
+        return ResponseEntity.ok(ciudad == null || ciudad.isBlank()
+                ? proyectoService.obtenerTodos()
+                : proyectoService.obtenerPorCiudad(ciudad));
+    }
+
+    @GetMapping("/ciudades")
+    public ResponseEntity<List<String>> obtenerCiudades() {
+        return ResponseEntity.ok(proyectoService.obtenerCiudades());
     }
 
     @GetMapping("/destacados")

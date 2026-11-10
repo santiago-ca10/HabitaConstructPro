@@ -90,8 +90,8 @@ export default function FormularioInteres({ proyectoId, proyectoNombre }) {
       <textarea id="mensaje" name="mensaje" value={form.mensaje} onChange={cambiar} required />
       <button className="boton" disabled={enviando}>{enviando ? 'Enviando...' : 'Enviar'}</button>
       {/* Mensajes de resultado. Solo aparece el que tenga texto. */}
-      {mensaje && <p className="ok">{mensaje}</p>}
-      {error && <p className="error">{error}</p>}
+      {mensaje && <p className="toast ok" role="status">{mensaje}</p>}
+      {error && <p className="toast error" role="alert">{error}</p>}
     </form>
   )
 }

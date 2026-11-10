@@ -32,6 +32,31 @@ export function fecha(valor) {
     return Number.isNaN(date.getTime()) ? String(valor) : date.toLocaleString('es-CO')
 }
 
+export function leerToken() {
+    try {
+        return sessionStorage.getItem('habita-token')
+    } catch {
+        return null
+    }
+}
+
+export function guardarToken(token) {
+    try {
+        sessionStorage.setItem('habita-token', token)
+        return true
+    } catch {
+        return false
+    }
+}
+
+export function borrarToken() {
+    try {
+        sessionStorage.removeItem('habita-token')
+    } catch {
+        // La sesión deja de ser válida en el cliente aunque el almacenamiento no esté disponible.
+    }
+}
+
 /*
   Pide o envía datos al backend.
   ruta es lo que va después de /api. Ejemplo: '/proyectos'.
@@ -39,11 +64,13 @@ export function fecha(valor) {
 */
 export async function pedir(ruta, opciones = {}) {
     try {
+        const token = leerToken()
         // fetch hace la llamada. /api lo reenvía Vite al puerto 8080.
         const respuesta = await fetch('/api' + ruta, {
             ...opciones,
             headers: {
                 'Content-Type': 'application/json',
+                ...(token ? { Authorization: `Bearer ${token}` } : {}),
                 ...(opciones.headers || {}),
             },
         })
@@ -53,6 +80,12 @@ export async function pedir(ruta, opciones = {}) {
             throw new Error('No hay conexión con el backend. Inícialo en el puerto 8080.')
         }
         const datos = await respuesta.json().catch(() => ({}))
+        if (respuesta.status === 401) {
+            borrarToken()
+            if (window.location.pathname !== '/login') {
+                window.location.assign('/login?expired=1')
+            }
+        }
         // Si el backend rechazó la petición, se muestra su mensaje.
         if (!respuesta.ok) {
             const detalle = datos.errors ? Object.values(datos.errors).join('. ') : datos.message

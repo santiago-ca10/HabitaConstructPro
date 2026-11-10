@@ -11,6 +11,10 @@ public interface ProyectoService {
 
     List<ProyectoResponseDTO> obtenerTodos();
 
+    List<ProyectoResponseDTO> obtenerPorCiudad(String ciudad);
+
+    List<String> obtenerCiudades();
+
     List<ProyectoResponseDTO> obtenerDestacados();
 
     ProyectoResponseDTO obtenerPorId(Long id);

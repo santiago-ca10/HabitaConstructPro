@@ -3,14 +3,18 @@ package com.constructora.config;
 import com.constructora.entity.ClienteInteresado;
 import com.constructora.entity.Proyecto;
 import com.constructora.entity.Vivienda;
+import com.constructora.entity.Usuario;
 import com.constructora.enums.EstadoProyecto;
 import com.constructora.enums.TipoVivienda;
 import com.constructora.repository.ClienteInteresadoRepository;
 import com.constructora.repository.ProyectoRepository;
 import com.constructora.repository.ViviendaRepository;
+import com.constructora.repository.UsuarioRepository;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.security.crypto.password.PasswordEncoder;
 
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
@@ -21,8 +25,20 @@ public class DataInitializer {
     @Bean
     CommandLineRunner initData(ProyectoRepository proyectoRepository,
                                ViviendaRepository viviendaRepository,
-                               ClienteInteresadoRepository clienteInteresadoRepository) {
+                               ClienteInteresadoRepository clienteInteresadoRepository,
+                               UsuarioRepository usuarioRepository,
+                               PasswordEncoder passwordEncoder,
+                               @Value("${app.admin.username:admin}") String adminUsername,
+                               @Value("${app.admin.password:admin1234}") String adminPassword) {
         return args -> {
+            if (usuarioRepository.count() == 0) {
+                Usuario admin = new Usuario();
+                admin.setUsername(adminUsername);
+                admin.setPassword(passwordEncoder.encode(adminPassword));
+                admin.setRol("ADMIN");
+                usuarioRepository.save(admin);
+            }
+
             if (proyectoRepository.count() > 0) {
                 return;
             }

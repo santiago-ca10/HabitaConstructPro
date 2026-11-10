@@ -44,25 +44,22 @@ export default function DetalleProyecto() {
 
   return (
     <main className="pagina">
-      <Link to="/proyectos">← Proyectos</Link>
-      <h1>{proyecto.nombre}</h1>
-      {/* Foto grande, textos del proyecto y el precio. */}
-      <Foto src={proyecto.imagenUrl} alt={proyecto.nombre} grande />
-      <p>{proyecto.descripcion}</p>
-      <p>{proyecto.ciudad}{proyecto.direccion ? ` · ${proyecto.direccion}` : ''}</p>
-      <p>{ESTADOS[proyecto.estado] || proyecto.estado}</p>
-      <p className="precio">Desde {dinero(proyecto.precioDesde)}</p>
-
-      <h2>Viviendas de este proyecto</h2>
-      {viviendas.length === 0 && <p>Este proyecto aún no tiene viviendas.</p>}
-      <div className="grid">
-        {viviendas.map((vivienda) => (
-          <TarjetaVivienda key={vivienda.id} vivienda={vivienda} />
-        ))}
+      <Link className="back-link" to="/proyectos">← Volver a proyectos</Link>
+      <div className="detail-layout">
+        <section className="detail-content">
+          <span className="eyebrow">{proyecto.ciudad} · {ESTADOS[proyecto.estado] || proyecto.estado}</span>
+          <h1>{proyecto.nombre}</h1>
+          <Foto src={proyecto.imagenUrl} alt={proyecto.nombre} grande />
+          <div className="detail-facts"><span>Desde <strong>{dinero(proyecto.precioDesde)}</strong></span><span>{proyecto.direccion}</span></div>
+          <p className="detail-description">{proyecto.descripcion}</p>
+          <div className="section-title"><div><span className="eyebrow">OPCIONES PARA TI</span><h2>Viviendas del proyecto</h2></div></div>
+          {viviendas.length === 0 && <p>Este proyecto aún no tiene viviendas.</p>}
+          <div className="grid">
+            {viviendas.map((vivienda) => <TarjetaVivienda key={vivienda.id} vivienda={vivienda} />)}
+          </div>
+        </section>
+        <aside className="detail-form"><FormularioInteres proyectoId={proyecto.id} proyectoNombre={proyecto.nombre} /></aside>
       </div>
-
-      {/* El formulario ya sabe de qué proyecto se trata. */}
-      <FormularioInteres proyectoId={proyecto.id} proyectoNombre={proyecto.nombre} />
     </main>
   )
 }
